@@ -3,7 +3,8 @@ extends Sprite
 onready var top_label = $TopLabel
 onready var bottom_label = $BottomLabel
 
-var card = null
+var card_data = null
+var location = Globals.UNKNOWN
 
 func set_details(number):
 	match number:
