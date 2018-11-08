@@ -1,3 +1,5 @@
+# Scissors cuts paper. Paper covers rock. Rock crushes lizard. Scissors decapitates lizard. Lizard eats paper. Rock crushes scissors.
+
 extends Node2D
 
 onready var pile1 = $Card1
@@ -12,6 +14,9 @@ onready var SunCard = load("res://scenes/SunCard.tscn")
 onready var MoonCard = load("res://scenes/MoonCard.tscn")
 onready var ShipCard = load("res://scenes/ShipCard.tscn")
 onready var AlienCard = load("res://scenes/AlienCard.tscn")
+
+onready var CometCard = load("res://scenes/CometCard.tscn")
+onready var BlackHoleCard = load("res://scenes/BlackHoleCard.tscn")
 
 onready var BackCard = load("res://scenes/BackCard.tscn")
 

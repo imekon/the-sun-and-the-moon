@@ -23,3 +23,8 @@ func set_details(number):
 		13:
 			top_label.text = "K"
 			bottom_label.text = "K"
+
+func on_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.is_pressed():
+			print("Left Mouse Click suit: %d number %d" % [card_data._suit, card_data._number])
