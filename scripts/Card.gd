@@ -26,7 +26,5 @@ func set_details(number):
 			bottom_label.text = "K"
 
 func on_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and event.is_pressed():
-			Globals.choose_selected(self)
-			print("Left Mouse Click row: %d suit: %d number %d" % [row, card_data._suit, card_data._number])
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+		Globals.choose_selected(self)

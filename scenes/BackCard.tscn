@@ -1,7 +1,27 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://images/card.png" type="Texture" id=1]
+[ext_resource path="res://scripts/BackCard.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 105, 160 )
 
 [node name="BackCard" type="Sprite"]
 texture = ExtResource( 1 )
+script = ExtResource( 2 )
 
+[node name="Area2D" type="Area2D" parent="."]
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[connection signal="input_event" from="Area2D" to="." method="on_input_event"]

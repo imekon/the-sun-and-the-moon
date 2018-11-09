@@ -35,6 +35,8 @@ func _ready():
 	back_card.scale = Globals.card_scaling
 	add_child(back_card)
 	
+	back_card.connect("card_back_clicked", self, "on_discard_click")
+	
 	create_pack()
 	deal_cards()
 	display_card()
@@ -118,7 +120,15 @@ func process_selection():
 	if Globals.selected_card == null:
 		return
 		
-	pass
+	if active.card_data._number - Globals.selected_card.card_data._number == 1:
+		process_match()
+		
+	if Globals.selected_card.card_data._number - active.card_data._number == 1:
+		process_match()
+		
+func process_match():
+	print("matched!")
 	
-
+func on_discard_click():
+	print("discard clicked")
 	
