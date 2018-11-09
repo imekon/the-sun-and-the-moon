@@ -5,6 +5,7 @@ onready var bottom_label = $BottomLabel
 
 var card_data = null
 var location = Globals.UNKNOWN
+var row
 
 func set_details(number):
 	match number:
@@ -27,4 +28,5 @@ func set_details(number):
 func on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.is_pressed():
-			print("Left Mouse Click suit: %d number %d" % [card_data._suit, card_data._number])
+			Globals.choose_selected(self)
+			print("Left Mouse Click row: %d suit: %d number %d" % [row, card_data._suit, card_data._number])

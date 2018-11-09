@@ -10,6 +10,8 @@ onready var pile4 = $Card4
 onready var active_pile = $ActivePile
 onready var discard_pile = $DiscardPile
 
+onready var selection = $Selection
+
 onready var SunCard = load("res://scenes/SunCard.tscn")
 onready var MoonCard = load("res://scenes/MoonCard.tscn")
 onready var ShipCard = load("res://scenes/ShipCard.tscn")
@@ -23,6 +25,7 @@ onready var BackCard = load("res://scenes/BackCard.tscn")
 onready var CardData = load("res://scripts/CardData.gd")
 
 var pack
+var active = null
 
 func _ready():
 	randomize()
@@ -35,6 +38,14 @@ func _ready():
 	create_pack()
 	deal_cards()
 	display_card()
+	
+func _process(delta):
+	if Globals.selected_card != null:
+		selection.position = Globals.selected_card.position
+		
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !event.is_pressed():
+		process_selection()
 	
 func create_pack():
 	pack = []
@@ -70,9 +81,9 @@ func deal_cards():
 			var card_data = pack[0]
 			pack.remove(0)
 			
-			create_card(card_data, pos)
+			create_card(card_data, pos, row)
 			
-func create_card(card_data, pos):
+func create_card(card_data, pos, row):
 	var card : Sprite
 	
 	match card_data._suit:
@@ -88,12 +99,26 @@ func create_card(card_data, pos):
 	card.scale = Globals.card_scaling
 	card.position = pos
 	add_child(card)
+	card.row = row
 	card.card_data = card_data
 	card.location = Globals.PILE
 	card.set_details(card_data._number)
+	return card
 				
 func display_card():
 	var card_data = pack[0]
 	pack.remove(0)
 	
-	create_card(card_data, active_pile.position)
+	active = create_card(card_data, active_pile.position, -1)
+	
+func process_selection():
+	if active == null:
+		return
+		
+	if Globals.selected_card == null:
+		return
+		
+	pass
+	
+
+	
