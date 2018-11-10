@@ -22,9 +22,8 @@ onready var BlackHoleCard = load("res://scenes/BlackHoleCard.tscn")
 
 onready var BackCard = load("res://scenes/BackCard.tscn")
 
-onready var CardData = load("res://scripts/CardData.gd")
-
-var pack
+var pack = []
+var pile = []
 var active = null
 
 func _ready():
@@ -57,7 +56,7 @@ func create_pack():
 	pack = []
 	for suit in range(4):
 		for number in range(13):
-			var card = CardData.new(suit, number + 1)
+			var card = create_card(suit, number, Vector2(), -1, Globals.UNKNOWN)
 			pack.append(card)
 
 	pack.shuffle()
@@ -84,15 +83,14 @@ func deal_cards():
 				
 			pos.y += row * 70
 			
-			var card_data = pack[0]
+			var card = pack[0]
 			pack.remove(0)
+			pile.append(card)
 			
-			create_card(card_data, pos, row, Globals.PILE)
-			
-func create_card(card_data, pos, row, loc):
+func create_card(suit, number, pos, row, loc):
 	var card : Sprite
 	
-	match card_data._suit:
+	match suit:
 		0:
 			card = SunCard.instance()
 		1:
@@ -105,22 +103,22 @@ func create_card(card_data, pos, row, loc):
 	card.scale = Globals.card_scaling
 	card.position = pos
 	add_child(card)
-	card.card_data = card_data
+	card.card_suit = suit
+	card.card_number = number
 	card.row = row
-	card.card_data = card_data
 	card.location = loc
-	card.set_details(card_data._number)
+	card.set_details(number)
 	return card
 				
 func display_card():
-	var card_data = pack[0]
+	if active != null:
+		pack.append(active)
+		active.z_index = -100
+		
+	active = pack[0]
 	pack.remove(0)
 	
-	if active != null:
-		pack.append(active.card_data)
-		active.queue_free()
-	
-	active = create_card(card_data, active_pile.position, -1, Globals.PICKUP)
+	active.z_index = 100
 	
 func process_selection():
 	if active == null:
@@ -129,10 +127,10 @@ func process_selection():
 	if Globals.selected_card == null:
 		return
 		
-	if active.card_data._number - Globals.selected_card.card_data._number == 1:
+	if active.card_number - Globals.selected_card.card_number == 1:
 		process_match()
 		
-	if Globals.selected_card.card_data._number - active.card_data._number == 1:
+	if Globals.selected_card.card_number - active.card_number == 1:
 		process_match()
 		
 func reset_selection():
