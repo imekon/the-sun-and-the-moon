@@ -44,10 +44,14 @@ func _ready():
 func _process(delta):
 	if Globals.selected_card != null:
 		selection.position = Globals.selected_card.position
+	else:
+		selection.position = active.position
 		
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !event.is_pressed():
 		process_selection()
+	else:
+		reset_selection()
 	
 func create_pack():
 	pack = []
@@ -83,9 +87,9 @@ func deal_cards():
 			var card_data = pack[0]
 			pack.remove(0)
 			
-			create_card(card_data, pos, row)
+			create_card(card_data, pos, row, Globals.PILE)
 			
-func create_card(card_data, pos, row):
+func create_card(card_data, pos, row, loc):
 	var card : Sprite
 	
 	match card_data._suit:
@@ -101,9 +105,10 @@ func create_card(card_data, pos, row):
 	card.scale = Globals.card_scaling
 	card.position = pos
 	add_child(card)
+	card.card_data = card_data
 	card.row = row
 	card.card_data = card_data
-	card.location = Globals.PILE
+	card.location = loc
 	card.set_details(card_data._number)
 	return card
 				
@@ -111,7 +116,11 @@ func display_card():
 	var card_data = pack[0]
 	pack.remove(0)
 	
-	active = create_card(card_data, active_pile.position, -1)
+	if active != null:
+		pack.append(active.card_data)
+		active.queue_free()
+	
+	active = create_card(card_data, active_pile.position, -1, Globals.PICKUP)
 	
 func process_selection():
 	if active == null:
@@ -126,9 +135,16 @@ func process_selection():
 	if Globals.selected_card.card_data._number - active.card_data._number == 1:
 		process_match()
 		
+func reset_selection():
+	Globals.clear_selected()
+		
 func process_match():
-	print("matched!")
+	Globals.selected_card.location = Globals.PICKUP
+	Globals.selected_card.position = active.position
+	active = Globals.selected_card
+	Globals.clear_selected()
 	
 func on_discard_click():
-	print("discard clicked")
+	if !pack.empty():
+		display_card()
 	
