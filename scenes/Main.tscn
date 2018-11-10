@@ -8,8 +8,9 @@
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Starfield" type="Sprite" parent="."]
 position = Vector2( 670, 380 )
+z_index = -100
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
@@ -18,12 +19,14 @@ __meta__ = {
 }
 
 [node name="Card1" parent="." instance=ExtResource( 3 )]
-position = Vector2( 292.8, 140.6 )
+position = Vector2( 292.8, 139.6 )
 scale = Vector2( 0.7, 0.7 )
+z_index = -50
 
 [node name="Card2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 522.8, 140.6 )
+position = Vector2( 522.8, 139.6 )
 scale = Vector2( 0.7, 0.7 )
+z_index = -50
 
 [node name="DiscardPile" parent="." instance=ExtResource( 3 )]
 position = Vector2( 542.8, 630.6 )
@@ -36,10 +39,12 @@ scale = Vector2( 0.7, 0.7 )
 [node name="Card3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 752.8, 140.6 )
 scale = Vector2( 0.7, 0.7 )
+z_index = -50
 
 [node name="Card4" parent="." instance=ExtResource( 3 )]
 position = Vector2( 982.8, 140.6 )
 scale = Vector2( 0.7, 0.7 )
+z_index = -50
 
 [node name="Selection" parent="." instance=ExtResource( 4 )]
 position = Vector2( 730, 630 )

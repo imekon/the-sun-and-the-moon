@@ -87,6 +87,10 @@ func deal_cards():
 			pack.remove(0)
 			pile.append(card)
 			
+			card.position = pos
+			card.row = row
+			card.z_index = row - 4
+			
 func create_card(suit, number, pos, row, loc):
 	var card : Sprite
 	
@@ -119,6 +123,7 @@ func display_card():
 	pack.remove(0)
 	
 	active.z_index = 100
+	active.position = active_pile.position
 	
 func process_selection():
 	if active == null:
