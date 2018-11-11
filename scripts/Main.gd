@@ -1,5 +1,7 @@
 extends Node2D
 
+const UPPERMOST = 10
+
 onready var pile1 = $Card1
 onready var pile2 = $Card2
 onready var pile3 = $Card3
@@ -12,6 +14,7 @@ onready var selection = $Selection
 
 onready var creditsLabel = $CreditsLabel
 onready var comboLabel = $ComboLabel
+onready var settingsDialog = $SettingsDialog
 
 onready var SunCard = load("res://scenes/SunCard.tscn")
 onready var MoonCard = load("res://scenes/MoonCard.tscn")
@@ -138,7 +141,7 @@ func display_card():
 	active = pack[0]
 	pack.remove(0)
 	
-	active.z_index = 100
+	active.z_index = UPPERMOST
 	active.position = active_pile.position
 	
 func process_selection():
@@ -184,7 +187,7 @@ func process_match(active_suit, selected_suit):
 	Globals.selected_card.position = active.position
 	active.z_index = 0
 	active = Globals.selected_card
-	active.z_index = 100
+	active.z_index = UPPERMOST
 	Globals.clear_selected()
 	var battle = process_battle(active_suit, selected_suit)
 	match battle:
@@ -225,4 +228,6 @@ func process_battle(active, selected):
 func on_discard_click():
 	if !pack.empty():
 		display_card()
-	
+
+func on_settings_pressed():
+	settingsDialog.popup_centered()

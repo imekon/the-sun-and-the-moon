@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://images/starfield.png" type="Texture" id=2]
 [ext_resource path="res://scenes/DarkCard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Selection.tscn" type="PackedScene" id=4]
 [ext_resource path="res://fonts/SF Atarian System.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://images/cog.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -103,3 +104,49 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="SettingsButton" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0.752941 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1190.0
+margin_top = 29.0
+margin_right = 1250.0
+margin_bottom = 83.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+icon = ExtResource( 6 )
+flat = false
+align = 1
+
+[node name="SettingsDialog" type="WindowDialog" parent="."]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 300.0
+margin_top = 200.0
+margin_right = 900.0
+margin_bottom = 680.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = "Settings"
+resizable = false
+
+[connection signal="pressed" from="SettingsButton" to="." method="on_settings_pressed"]
