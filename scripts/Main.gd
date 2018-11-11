@@ -129,22 +129,26 @@ func process_selection():
 	if active == null:
 		return
 		
-	if Globals.selected_card == null:
+	var selected = Globals.selected_card
+		
+	if selected == null:
 		return
 		
-	if active.card_number - Globals.selected_card.card_number == 1:
+	if active.card_number - selected.card_number == 1:
 		process_match()
 		
-	if Globals.selected_card.card_number - active.card_number == 1:
+	if selected.card_number - active.card_number == 1:
 		process_match()
 		
 func reset_selection():
 	Globals.clear_selected()
 		
 func process_match():
-	Globals.selected_card.location = Globals.PICKUP
 	Globals.selected_card.position = active.position
+	active.z_index = 0
 	active = Globals.selected_card
+	active.location = Globals.PICKUP
+	active.z_index = 100
 	Globals.clear_selected()
 	
 func on_discard_click():
