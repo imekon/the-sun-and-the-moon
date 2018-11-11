@@ -14,6 +14,7 @@ onready var selection = $Selection
 
 onready var creditsLabel = $CreditsLabel
 onready var battlesLabel = $BattlesLabel
+onready var comboLabel = $ComboLabel
 
 onready var SunCard = load("res://scenes/SunCard.tscn")
 onready var MoonCard = load("res://scenes/MoonCard.tscn")
@@ -31,6 +32,7 @@ var active = null
 
 var credits = 0
 var battles = 0
+var combo = 0
 
 func _ready():
 	randomize()
@@ -47,8 +49,12 @@ func _ready():
 	display_card()
 	
 func _process(delta):
+	if Input.is_action_pressed("restart"):
+		get_tree().reload_current_scene()
+		
 	creditsLabel.text = "Credits: " + str(credits)
 	battlesLabel.text = "Battles: " + str(battles)
+	comboLabel.text = "Combo: " + str(combo)
 	
 	if Globals.selected_card != null:
 		selection.position = Globals.selected_card.position
@@ -58,14 +64,12 @@ func _process(delta):
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !event.is_pressed():
 		process_selection()
-	else:
-		reset_selection()
 	
 func create_pack():
 	pack = []
 	for suit in range(4):
 		for number in range(13):
-			var card = create_card(suit, number, Vector2(-200, -200))
+			var card = create_card(suit, number + 1, Vector2(-200, -200))
 			pack.append(card)
 
 	pack.shuffle()
@@ -139,22 +143,43 @@ func display_card():
 	active.position = active_pile.position
 	
 func process_selection():
+	print("process selection")
+	
 	if active == null:
+		reset_selection()
 		return
 		
 	var selected = Globals.selected_card
 		
 	if selected == null:
+		reset_selection()
 		return
+		
+	print("active: %d selected: %d" % [active.card_number, selected.card_number])
 		
 	if active.card_number - selected.card_number == 1:
 		process_match()
+		return
 		
 	if selected.card_number - active.card_number == 1:
 		process_match()
+		return
+		
+	if selected.card_number == 1 and active.card_number == 13:
+		process_match()
+		return
+		
+	if selected.card_number == 13 and active.card_number == 1:
+		process_match()
+		return
+		
+	reset_selection()
 		
 func reset_selection():
+	print("reset selection")
 	Globals.clear_selected()
+	
+	combo = 0
 		
 func process_match():
 	Globals.selected_card.position = active.position
@@ -163,6 +188,8 @@ func process_match():
 	active.z_index = 100
 	credits += active.card_credits
 	Globals.clear_selected()
+	
+	combo += 1
 	
 func on_discard_click():
 	if !pack.empty():
