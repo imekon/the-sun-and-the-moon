@@ -11,7 +11,6 @@ onready var discard_pile = $DiscardPile
 onready var selection = $Selection
 
 onready var creditsLabel = $CreditsLabel
-onready var battlesLabel = $BattlesLabel
 onready var comboLabel = $ComboLabel
 
 onready var SunCard = load("res://scenes/SunCard.tscn")
@@ -29,7 +28,6 @@ var pile = []
 var active = null
 
 var credits = 0
-var battles = 0
 var combo = 0
 
 var battle_matrix = []
@@ -55,7 +53,6 @@ func _process(delta):
 		get_tree().reload_current_scene()
 		
 	creditsLabel.text = "Credits: " + str(credits)
-	battlesLabel.text = "Battles: " + str(battles)
 	comboLabel.text = "Combo: " + str(combo)
 	
 	if Globals.selected_card != null:
@@ -188,11 +185,16 @@ func process_match(active_suit, selected_suit):
 	active.z_index = 0
 	active = Globals.selected_card
 	active.z_index = 100
-	credits += active.card_credits
 	Globals.clear_selected()
-	
-	process_battle(active_suit, selected_suit)
-	
+	var battle = process_battle(active_suit, selected_suit)
+	match battle:
+		-1:
+			credits += active.card_credits * 0.5
+		0:
+			credits += active.card_credits
+		1:
+			credits += active.card_credits * 2
+			
 	combo += 1
 
 # Scissors cuts paper => SHIP beats MOON
@@ -218,7 +220,7 @@ func initialise_battle_matrix():
 func process_battle(active, selected):
 	print("battle active: %d selected: %d" % [active, selected])
 	var battle = battle_matrix[active][selected]
-	battles += battle
+	return battle
 	
 func on_discard_click():
 	if !pack.empty():
