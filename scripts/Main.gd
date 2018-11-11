@@ -1,5 +1,3 @@
-# Scissors cuts paper. Paper covers rock. Rock crushes lizard. Scissors decapitates lizard. Lizard eats paper. Rock crushes scissors.
-
 extends Node2D
 
 onready var pile1 = $Card1
@@ -34,8 +32,12 @@ var credits = 0
 var battles = 0
 var combo = 0
 
+var battle_matrix = []
+
 func _ready():
 	randomize()
+	
+	initialise_battle_matrix()
 	
 	var back_card = BackCard.instance()
 	back_card.position = discard_pile.position
@@ -111,13 +113,13 @@ func create_card(suit, number, pos):
 	var card : Sprite
 	
 	match suit:
-		0:
+		Globals.SUN:
 			card = SunCard.instance()
-		1:
+		Globals.MOON:
 			card = MoonCard.instance()
-		2:
+		Globals.SHIP:
 			card = ShipCard.instance()
-		3:
+		Globals.ALIEN:
 			card = AlienCard.instance()
 	
 	card.scale = Globals.card_scaling
@@ -158,19 +160,19 @@ func process_selection():
 	print("active: %d selected: %d" % [active.card_number, selected.card_number])
 		
 	if active.card_number - selected.card_number == 1:
-		process_match()
+		process_match(active.card_suit, selected.card_suit)
 		return
 		
 	if selected.card_number - active.card_number == 1:
-		process_match()
+		process_match(active.card_suit, selected.card_suit)
 		return
 		
 	if selected.card_number == 1 and active.card_number == 13:
-		process_match()
+		process_match(active.card_suit, selected.card_suit)
 		return
 		
 	if selected.card_number == 13 and active.card_number == 1:
-		process_match()
+		process_match(active.card_suit, selected.card_suit)
 		return
 		
 	reset_selection()
@@ -181,7 +183,7 @@ func reset_selection():
 	
 	combo = 0
 		
-func process_match():
+func process_match(active_suit, selected_suit):
 	Globals.selected_card.position = active.position
 	active.z_index = 0
 	active = Globals.selected_card
@@ -189,7 +191,34 @@ func process_match():
 	credits += active.card_credits
 	Globals.clear_selected()
 	
+	process_battle(active_suit, selected_suit)
+	
 	combo += 1
+
+# Scissors cuts paper => SHIP beats MOON
+# Paper covers rock => MOON beats SUN
+# Rock crushes lizard => SUN beats ALIEN
+# Scissors decapitates lizard => SHIP beats ALIEN
+# Lizard eats paper => ALIEN beats MOON
+# Rock crushes scissors => SUN beats SHIP
+#
+# SUN  -> MOON  -> SHIP     -> ALIEN
+# ROCK -> PAPER -> SCISSORS -> LIZARD
+func initialise_battle_matrix():
+	var sun =   [  0, -1,  1,  1 ]
+	var moon =  [  1,  0, -1, -1 ]
+	var ship =  [ -1,  1,  0,  1 ]
+	var alien = [ -1,  1, -1,  0 ]
+	
+	battle_matrix.append(sun)
+	battle_matrix.append(moon)
+	battle_matrix.append(ship)
+	battle_matrix.append(alien)
+
+func process_battle(active, selected):
+	print("battle active: %d selected: %d" % [active, selected])
+	var battle = battle_matrix[active][selected]
+	battles += battle
 	
 func on_discard_click():
 	if !pack.empty():
