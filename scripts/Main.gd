@@ -12,6 +12,9 @@ onready var discard_pile = $DiscardPile
 
 onready var selection = $Selection
 
+onready var creditsLabel = $CreditsLabel
+onready var battlesLabel = $BattlesLabel
+
 onready var SunCard = load("res://scenes/SunCard.tscn")
 onready var MoonCard = load("res://scenes/MoonCard.tscn")
 onready var ShipCard = load("res://scenes/ShipCard.tscn")
@@ -25,6 +28,9 @@ onready var BackCard = load("res://scenes/BackCard.tscn")
 var pack = []
 var pile = []
 var active = null
+
+var credits = 0
+var battles = 0
 
 func _ready():
 	randomize()
@@ -41,6 +47,9 @@ func _ready():
 	display_card()
 	
 func _process(delta):
+	creditsLabel.text = "Credits: " + str(credits)
+	battlesLabel.text = "Battles: " + str(battles)
+	
 	if Globals.selected_card != null:
 		selection.position = Globals.selected_card.position
 	else:
@@ -56,7 +65,7 @@ func create_pack():
 	pack = []
 	for suit in range(4):
 		for number in range(13):
-			var card = create_card(suit, number, Vector2(), -1, Globals.UNKNOWN)
+			var card = create_card(suit, number, Vector2(-200, -200))
 			pack.append(card)
 
 	pack.shuffle()
@@ -91,7 +100,10 @@ func deal_cards():
 			card.row = row
 			card.z_index = row - 4
 			
-func create_card(suit, number, pos, row, loc):
+			if row == 0:
+				card.card_credits += 20
+			
+func create_card(suit, number, pos):
 	var card : Sprite
 	
 	match suit:
@@ -109,8 +121,9 @@ func create_card(suit, number, pos, row, loc):
 	add_child(card)
 	card.card_suit = suit
 	card.card_number = number
-	card.row = row
-	card.location = loc
+	card.row = -1
+	if rand_range(1, 100) > 70:
+		card.card_credits = 10
 	card.set_details(number)
 	return card
 				
@@ -147,8 +160,8 @@ func process_match():
 	Globals.selected_card.position = active.position
 	active.z_index = 0
 	active = Globals.selected_card
-	active.location = Globals.PICKUP
 	active.z_index = 100
+	credits += active.card_credits
 	Globals.clear_selected()
 	
 func on_discard_click():

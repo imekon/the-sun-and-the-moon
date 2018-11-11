@@ -5,6 +5,7 @@ onready var bottom_label = $BottomLabel
 
 var card_suit = -1
 var card_number = -1
+var card_credits = 0
 var location = Globals.UNKNOWN
 var row
 
