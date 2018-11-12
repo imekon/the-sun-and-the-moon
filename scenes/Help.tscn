@@ -101,15 +101,35 @@ size_flags_vertical = 1
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "The Sun and the Moon is a card game, based on Solitaire (Patience to us Brits) and Rock, Paper, Scissors.
+
+This game would benefit from a tutorial!
+
 You match cards one above or below the one on display from the four columns. Some cards may have credits; each column has credits.
-Suits are played as Rock, Paper, Scissors."
+Suits are played as Rock, Paper, Scissors, Lizard.
+
+The Sun is Rock
+The Moon is Paper
+The Ship is Scissors
+The Alien is Lizard
+
+The credit score is adjusted by how rock, paper, scissors plays out. If the suit matches, then it's a draw and no change is made to the score. If your card wins, you double the credits you receive; if you lose, you halve the credits."
 visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
 text = "The Sun and the Moon is a card game, based on Solitaire (Patience to us Brits) and Rock, Paper, Scissors.
+
+This game would benefit from a tutorial!
+
 You match cards one above or below the one on display from the four columns. Some cards may have credits; each column has credits.
-Suits are played as Rock, Paper, Scissors."
+Suits are played as Rock, Paper, Scissors, Lizard.
+
+The Sun is Rock
+The Moon is Paper
+The Ship is Scissors
+The Alien is Lizard
+
+The credit score is adjusted by how rock, paper, scissors plays out. If the suit matches, then it's a draw and no change is made to the score. If your card wins, you double the credits you receive; if you lose, you halve the credits."
 scroll_active = true
 scroll_following = false
 selection_enabled = false
