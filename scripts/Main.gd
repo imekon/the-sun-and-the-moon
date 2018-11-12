@@ -230,4 +230,4 @@ func on_discard_click():
 		display_card()
 
 func on_settings_pressed():
-	settingsDialog.popup_centered()
+	settingsDialog.popup()
