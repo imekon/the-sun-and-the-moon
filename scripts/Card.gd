@@ -13,7 +13,8 @@ var row
 var tween_start = Vector2()
 var tween_end = Vector2()
 
-func set_details(number):
+func set_details(number, credits):
+	card_credits = credits
 	match number:
 		1:
 			top_label.text = "A"

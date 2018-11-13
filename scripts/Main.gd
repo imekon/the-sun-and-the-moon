@@ -15,7 +15,7 @@ onready var selection = $Selection
 onready var creditsLabel = $CreditsLabel
 onready var comboLabel = $ComboLabel
 onready var multiplierLabel = $MultiplierLabel
-onready var settingsDialog = $SettingsDialog
+onready var timer = $Timer
 
 onready var SunCard = load("res://scenes/SunCard.tscn")
 onready var MoonCard = load("res://scenes/MoonCard.tscn")
@@ -74,7 +74,7 @@ func create_pack():
 	pack = []
 	for suit in range(4):
 		for number in range(13):
-			var card = create_card(suit, number + 1, Vector2(-200, -200))
+			var card = create_card(suit, number + 1, Vector2(-200, 400))
 			pack.append(card)
 
 	pack.shuffle()
@@ -84,6 +84,8 @@ func deal_cards():
 	var pos2 = pile2.position
 	var pos3 = pile3.position
 	var pos4 = pile4.position
+	
+	timer.start()
 	
 	for row in range(4):
 		for column in range(4):
@@ -105,12 +107,16 @@ func deal_cards():
 			pack.remove(0)
 			pile.append(card)
 			
-			card.position = pos
+			card.move_to(pos)
 			card.row = row
 			card.z_index = row - 4
 			
 			if row == 0:
 				card.card_credits += 20
+				
+			yield(timer, "timeout")
+			
+	timer.stop()
 			
 func create_card(suit, number, pos):
 	var card : Sprite
@@ -131,9 +137,10 @@ func create_card(suit, number, pos):
 	card.card_suit = suit
 	card.card_number = number
 	card.row = -1
+	var credits = 0
 	if rand_range(1, 100) > 70:
-		card.card_credits = 10
-	card.set_details(number)
+		credits = 10
+	card.set_details(number, credits)
 	return card
 				
 func display_card():
@@ -145,7 +152,8 @@ func display_card():
 	pack.remove(0)
 	
 	active.z_index = UPPERMOST
-	active.position = active_pile.position
+	active.position = discard_pile.position
+	active.move_to(active_pile.position)
 	
 func process_selection():
 	print("process selection")
@@ -233,5 +241,3 @@ func on_discard_click():
 	if !pack.empty():
 		display_card()
 
-func on_settings_pressed():
-	settingsDialog.popup()
