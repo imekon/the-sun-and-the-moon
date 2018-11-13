@@ -14,6 +14,7 @@ onready var selection = $Selection
 
 onready var creditsLabel = $CreditsLabel
 onready var comboLabel = $ComboLabel
+onready var multiplierLabel = $MultiplierLabel
 onready var settingsDialog = $SettingsDialog
 
 onready var SunCard = load("res://scenes/SunCard.tscn")
@@ -32,6 +33,7 @@ var active = null
 
 var credits = 0
 var combo = 0
+var multiplier = 1.0
 
 var battle_matrix = []
 
@@ -57,6 +59,7 @@ func _process(delta):
 		
 	creditsLabel.text = "Credits: " + str(credits)
 	comboLabel.text = "Combo: " + str(combo)
+	multiplierLabel.text = "Multiplier: " + str(multiplier)
 	
 	if Globals.selected_card != null:
 		selection.position = Globals.selected_card.position
@@ -184,7 +187,8 @@ func reset_selection():
 	combo = 0
 		
 func process_match(active_suit, selected_suit):
-	Globals.selected_card.position = active.position
+	# Globals.selected_card.position = active.position
+	Globals.selected_card.move_to(active.position)
 	active.z_index = 0
 	active = Globals.selected_card
 	active.z_index = UPPERMOST
