@@ -3,6 +3,7 @@ extends Sprite
 onready var top_label = $TopLabel
 onready var bottom_label = $BottomLabel
 onready var tween = $Tween
+onready var blob = $Blob
 
 var card_suit = -1
 var card_number = -1
@@ -31,6 +32,11 @@ func set_details(number, credits):
 		13:
 			top_label.text = "K"
 			bottom_label.text = "K"
+			
+	if credits > 0:
+		blob.modulate = Color(1, 1, 0)
+	else:
+		blob.visible = false
 			
 func move_to(pos: Vector2):
 	tween_start = position

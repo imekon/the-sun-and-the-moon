@@ -9,6 +9,7 @@ custom_solver_bias = 0.0
 extents = Vector2( 105, 160 )
 
 [node name="BackCard" type="Sprite"]
+z_index = -2
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 

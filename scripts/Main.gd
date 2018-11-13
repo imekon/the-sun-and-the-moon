@@ -30,12 +30,15 @@ onready var BackCard = load("res://scenes/BackCard.tscn")
 var pack = []
 var pile = []
 var active = null
+var previous = null
 
 var credits = 0
 var combo = 0
 var multiplier = 1.0
 
 var battle_matrix = []
+
+var offscreen = Vector2(-200, 400)
 
 func _ready():
 	randomize()
@@ -74,7 +77,7 @@ func create_pack():
 	pack = []
 	for suit in range(4):
 		for number in range(13):
-			var card = create_card(suit, number + 1, Vector2(-200, 400))
+			var card = create_card(suit, number + 1, offscreen)
 			pack.append(card)
 
 	pack.shuffle()
@@ -144,9 +147,14 @@ func create_card(suit, number, pos):
 	return card
 				
 func display_card():
+	if previous != null:
+		previous.position = offscreen
+		
 	if active != null:
 		pack.append(active)
-		active.z_index = -100
+		active.z_index = -1
+		
+	previous = active
 		
 	active = pack[0]
 	pack.remove(0)
