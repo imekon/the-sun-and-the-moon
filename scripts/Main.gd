@@ -27,6 +27,8 @@ onready var BlackHoleCard = load("res://scenes/BlackHoleCard.tscn")
 
 onready var BackCard = load("res://scenes/BackCard.tscn")
 
+onready var Indicator = load("res://scenes/Indicator.tscn")
+
 var pack = []
 var pile = []
 var active = null
@@ -37,6 +39,8 @@ var combo = 0
 var multiplier = 1.0
 
 var battle_matrix = []
+
+var indicators = []
 
 var offscreen = Vector2(-200, 400)
 
@@ -51,6 +55,27 @@ func _ready():
 	add_child(back_card)
 	
 	back_card.connect("card_back_clicked", self, "on_discard_click")
+	
+	for i in range(4):
+		var indicator = Indicator.instance()
+		add_child(indicator)
+		
+		var pos
+		
+		match i:
+			0:
+				pos = pile1.position
+			1:
+				pos = pile2.position
+			2:
+				pos = pile3.position
+			3:
+				pos = pile4.position
+				
+		pos.y = 480
+		
+		indicator.position = pos
+		indicators.append(indicator)
 	
 	create_pack()
 	deal_cards()
@@ -112,6 +137,7 @@ func deal_cards():
 			
 			card.move_to(pos)
 			card.row = row
+			card.column = column
 			card.z_index = row - 4
 			
 			if row == 0:
@@ -147,18 +173,26 @@ func create_card(suit, number, pos):
 	return card
 				
 func display_card():
+	print("--- display card ---")
+	
 	if previous != null:
 		previous.position = offscreen
+		
+		print("previous: " + str(previous.card_suit) + " " + str(previous.card_number))
 		
 	if active != null:
 		pack.append(active)
 		active.z_index = -1
 		
+		print("active: " + str(active.card_suit) + " " + str(active.card_number))
+
 	previous = active
 		
 	active = pack[0]
 	pack.remove(0)
 	
+	print("latest: " + str(active.card_suit) + " " + str(active.card_number))
+
 	active.z_index = UPPERMOST
 	active.position = discard_pile.position
 	active.move_to(active_pile.position)
@@ -244,6 +278,19 @@ func process_battle(active, selected):
 	print("battle active: %d selected: %d" % [active, selected])
 	var battle = battle_matrix[active][selected]
 	return battle
+	
+func get_pile_card(pile_index):
+	match pile_index:
+		0:
+			pass
+		1:
+			pass
+		2:
+			pass
+		3:
+			pass
+		
+	return null
 	
 func on_discard_click():
 	if !pack.empty():

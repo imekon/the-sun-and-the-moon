@@ -10,6 +10,7 @@ var card_number = -1
 var card_credits = 0
 var location = Globals.UNKNOWN
 var row
+var column
 
 var tween_start = Vector2()
 var tween_end = Vector2()
