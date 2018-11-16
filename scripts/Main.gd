@@ -15,6 +15,8 @@ onready var selection = $Selection
 onready var creditsLabel = $CreditsLabel
 onready var comboLabel = $ComboLabel
 onready var multiplierLabel = $MultiplierLabel
+onready var messageLabel = $MessageLabel
+onready var messageTween = $MessageTween
 onready var timer = $Timer
 
 onready var SunCard = load("res://scenes/SunCard.tscn")
@@ -56,6 +58,12 @@ func _ready():
 	
 	back_card.connect("card_back_clicked", self, "on_discard_click")
 	
+	# display_indicators()
+	create_pack()
+	deal_cards()
+	display_card()
+	
+func display_indicators():
 	for i in range(4):
 		var indicator = Indicator.instance()
 		add_child(indicator)
@@ -76,10 +84,6 @@ func _ready():
 		
 		indicator.position = pos
 		indicators.append(indicator)
-	
-	create_pack()
-	deal_cards()
-	display_card()
 	
 func _process(delta):
 	if Input.is_action_pressed("restart"):
@@ -234,25 +238,41 @@ func reset_selection():
 	print("reset selection")
 	Globals.clear_selected()
 	
+	if combo > 5:
+		var ratio = combo / 5.0
+		multiplier += ratio - 1.0
+	
 	combo = 0
 		
 func process_match(active_suit, selected_suit):
-	# Globals.selected_card.position = active.position
 	Globals.selected_card.move_to(active.position)
 	active.z_index = 0
+	previous = active
 	active = Globals.selected_card
 	active.z_index = UPPERMOST
 	Globals.clear_selected()
 	var battle = process_battle(active_suit, selected_suit)
-	match battle:
-		-1:
-			credits += active.card_credits * 0.5
-		0:
-			credits += active.card_credits
-		1:
-			credits += active.card_credits * 2
+	if active.card_credits > 0:
+		match battle:
+			-1:
+				credits += active.card_credits * 0.5 * multiplier
+				process_message("Battle lost, less credits won")
+			0:
+				credits += active.card_credits * multiplier
+				process_message("Battle drawn")
+			1:
+				credits += active.card_credits * 2 * multiplier
+				process_message("Battle won, more credits won!")
 			
 	combo += 1
+	
+func process_message(message):
+	messageLabel.text = message
+	messageTween.interpolate_method(self, "on_message_tween", 0, 1, 3, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	messageTween.start()
+	
+func on_message_tween(value):
+	messageLabel.modulate = Color(1, 1, 1, 1 - value)
 
 # Scissors cuts paper => SHIP beats MOON
 # Paper covers rock => MOON beats SUN
