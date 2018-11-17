@@ -13,3 +13,6 @@ func on_help_pressed():
 
 func on_label_meta_clicked(meta):
 	OS.shell_open(meta)
+
+func on_settings_pressed():
+	get_tree().change_scene("res://scenes/Settings.tscn")
