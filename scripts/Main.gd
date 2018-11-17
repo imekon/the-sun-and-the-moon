@@ -29,6 +29,8 @@ onready var BackCard = load("res://scenes/BackCard.tscn")
 
 onready var Indicator = load("res://scenes/Indicator.tscn")
 
+onready var dealing_cards = $SFX/DealingCards
+
 var pack = []
 var pile = []
 var card_discard_pile = []
@@ -111,6 +113,8 @@ func create_pack():
 	pack.shuffle()
 	
 func deal_cards():
+	dealing_cards.play()
+	
 	var pos1 = pile1.position
 	var pos2 = pile2.position
 	var pos3 = pile3.position
