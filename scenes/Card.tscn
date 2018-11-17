@@ -93,3 +93,4 @@ playback/repeat = false
 playback/speed = 1.0
 
 [connection signal="input_event" from="Area2D" to="." method="on_input_event"]
+[connection signal="tween_completed" from="Tween" to="." method="on_tween_completed"]

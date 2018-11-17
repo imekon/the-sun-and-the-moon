@@ -15,6 +15,8 @@ var column
 var tween_start = Vector2()
 var tween_end = Vector2()
 
+signal finished_moving
+
 func set_details(number, credits):
 	card_credits = credits
 	match number:
@@ -53,4 +55,6 @@ func on_move(value):
 	var x = lerp(tween_start.x, tween_end.x, value)
 	var y = lerp(tween_start.y, tween_end.y, value)
 	position = Vector2(x, y)
-	
+
+func on_tween_completed(object, key):
+	emit_signal("finished_moving")

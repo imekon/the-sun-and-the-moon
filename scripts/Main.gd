@@ -1,7 +1,5 @@
 extends Node2D
 
-const UPPERMOST = 10
-
 onready var pile1 = $Card1
 onready var pile2 = $Card2
 onready var pile3 = $Card3
@@ -33,8 +31,9 @@ onready var Indicator = load("res://scenes/Indicator.tscn")
 
 var pack = []
 var pile = []
+var card_discard_pile = []
+
 var active = null
-var previous = null
 
 var credits = 0
 var combo = 0
@@ -142,7 +141,7 @@ func deal_cards():
 			card.move_to(pos)
 			card.row = row
 			card.column = column
-			card.z_index = row - 4
+			card.z_index = row + 4
 			
 			if row == 0:
 				card.card_credits += 20
@@ -179,27 +178,37 @@ func create_card(suit, number, pos):
 func display_card():
 	print("--- display card ---")
 	
-	if previous != null:
-		previous.position = offscreen
-		
-		print("previous: " + str(previous.card_suit) + " " + str(previous.card_number))
-		
+	# arrange_discard_pile()
+	
 	if active != null:
 		pack.append(active)
 		active.z_index = -1
 		
 		print("active: " + str(active.card_suit) + " " + str(active.card_number))
 
-	previous = active
-		
 	active = pack[0]
 	pack.remove(0)
 	
 	print("latest: " + str(active.card_suit) + " " + str(active.card_number))
 
-	active.z_index = UPPERMOST
+	# active.z_index = UPPERMOST
 	active.position = discard_pile.position
 	active.move_to(active_pile.position)
+	
+	card_discard_pile.push_front(active)
+	yield(active, "finished_moving")
+	arrange_discard_pile()
+	
+func arrange_discard_pile():
+	for i in range(card_discard_pile.size()):
+		var card = card_discard_pile[i]
+		card.z_index = -i - 1
+		if i < 5:
+			var pos = active_pile.position
+			pos.x += i * 30
+			card.position = pos
+		else:
+			card.position = offscreen
 	
 func process_selection():
 	print("process selection")
@@ -246,10 +255,8 @@ func reset_selection():
 		
 func process_match(active_suit, selected_suit):
 	Globals.selected_card.move_to(active.position)
-	active.z_index = 0
-	previous = active
+	active.z_index = 1
 	active = Globals.selected_card
-	active.z_index = UPPERMOST
 	Globals.clear_selected()
 	var battle = process_battle(active_suit, selected_suit)
 	if active.card_credits > 0:
@@ -265,6 +272,10 @@ func process_match(active_suit, selected_suit):
 				process_message("Battle won, more credits won!")
 			
 	combo += 1
+	
+	card_discard_pile.push_front(active)
+	yield(active, "finished_moving")
+	arrange_discard_pile()
 	
 func process_message(message):
 	messageLabel.text = message

@@ -68,8 +68,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 63.0
 margin_right = 1263.0
-margin_bottom = 96.0
+margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -88,10 +89,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 233.0
-margin_top = 103.0
-margin_right = 1033.0
-margin_bottom = 663.0
+margin_left = 303.0
+margin_top = 233.0
+margin_right = 960.0
+margin_bottom = 623.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -102,7 +103,7 @@ custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "[center][img]res://images/Game Off 2018.png[/img][/center]
 [center]A game created for [url=https://itch.io/jam/game-off-2018]Game Off 2018[/url] by Pete Goodwin[/center]
-
+[center]Created in [url=https://godotengine.org/]Godot[/url] V3.1 Alpha 2[/center]
 "
 visible_characters = -1
 percent_visible = 1.0
@@ -110,7 +111,7 @@ meta_underlined = true
 tab_size = 4
 text = "
 A game created for Game Off 2018 by Pete Goodwin
-
+Created in Godot V3.1 Alpha 2
 "
 scroll_active = true
 scroll_following = false
