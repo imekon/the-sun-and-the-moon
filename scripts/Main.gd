@@ -200,7 +200,8 @@ func display_card():
 	arrange_discard_pile()
 	
 func arrange_discard_pile():
-	for i in range(card_discard_pile.size()):
+	var size = card_discard_pile.size()
+	for i in range(size):
 		var card = card_discard_pile[i]
 		card.z_index = -i - 1
 		if i < 5:
@@ -209,6 +210,9 @@ func arrange_discard_pile():
 			card.position = pos
 		else:
 			card.position = offscreen
+	
+	while card_discard_pile.size() > 5:
+		card_discard_pile.pop_back()
 	
 func process_selection():
 	print("process selection")
@@ -260,16 +264,18 @@ func process_match(active_suit, selected_suit):
 	Globals.clear_selected()
 	var battle = process_battle(active_suit, selected_suit)
 	if active.card_credits > 0:
-		match battle:
+		var first = Globals.suit_names[battle.first]
+		var second = Globals.suit_names[battle.second]
+		match battle.credits:
 			-1:
 				credits += active.card_credits * 0.5 * multiplier
-				process_message("Battle lost, less credits won")
+				process_message("%s vs %s: battle lost, less credits won" % [ first, second])
 			0:
 				credits += active.card_credits * multiplier
-				process_message("Battle drawn")
+				process_message("Same suit, battle drawn")
 			1:
 				credits += active.card_credits * 2 * multiplier
-				process_message("Battle won, more credits won!")
+				process_message("%s vs %s: battle won, more credits won!" % [ first, second])
 			
 	combo += 1
 	
@@ -305,10 +311,15 @@ func initialise_battle_matrix():
 	battle_matrix.append(ship)
 	battle_matrix.append(alien)
 
-func process_battle(active, selected):
-	print("battle active: %d selected: %d" % [active, selected])
-	var battle = battle_matrix[active][selected]
-	return battle
+func process_battle(active_suit, selected_suit):
+	print("battle active: %d selected: %d" % [active_suit, selected_suit])
+	var battle = battle_matrix[active_suit][selected_suit]
+	var result = { 
+		credits = battle, 
+		first = active_suit, 
+		second = selected_suit 
+		}
+	return result
 	
 func get_pile_card(pile_index):
 	match pile_index:

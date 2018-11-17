@@ -1,11 +1,13 @@
 extends Node
 
 enum SUITS { SUN, MOON, SHIP, ALIEN }
-enum LOCATION { UNKNOWN, PILE, DISCARD, PICKUP }
+# enum LOCATION { UNKNOWN, PILE, DISCARD, PICKUP }
 
 var card_scaling = Vector2(0.7, 0.7)
 
 var selected_card = null
+
+var suit_names = [ "Sun", "Moon", "Ship", "Alien" ]
 
 func clear_selected():
 	selected_card = null
