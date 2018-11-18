@@ -45,10 +45,20 @@ var battle_matrix = []
 
 var indicators = []
 
-var offscreen = Vector2(-200, 400)
+var music_db = -6
+var sfx_db = -6
+var music_mute = false
+var sfx_mute = false
+var music_index
+var sfx_index
+
+const offscreen = Vector2(-200, 400)
 
 func _ready():
 	randomize()
+	
+	music_index = AudioServer.get_bus_index("Music")
+	sfx_index = AudioServer.get_bus_index("SFX")
 	
 	initialise_battle_matrix()
 	
@@ -98,6 +108,11 @@ func _process(delta):
 		selection.position = Globals.selected_card.position
 	else:
 		selection.position = active.position
+		
+	if Globals.music_mute != music_mute:
+		music_mute = Globals.music_mute
+
+	process_audio()
 		
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !event.is_pressed():
@@ -179,22 +194,14 @@ func create_card(suit, number, pos):
 	card.set_details(number, credits)
 	return card
 				
-func display_card():
-	print("--- display card ---")
-	
-	# arrange_discard_pile()
-	
+func display_card():	
 	if active != null:
 		pack.append(active)
 		active.z_index = -1
 		
-		print("active: " + str(active.card_suit) + " " + str(active.card_number))
-
 	active = pack[0]
 	pack.remove(0)
 	
-	print("latest: " + str(active.card_suit) + " " + str(active.card_number))
-
 	# active.z_index = UPPERMOST
 	active.position = discard_pile.position
 	active.move_to(active_pile.position)
@@ -219,8 +226,6 @@ func arrange_discard_pile():
 		card_discard_pile.pop_back()
 	
 func process_selection():
-	print("process selection")
-	
 	if active == null:
 		reset_selection()
 		return
@@ -230,8 +235,6 @@ func process_selection():
 	if selected == null:
 		reset_selection()
 		return
-		
-	print("active: %d selected: %d" % [active.card_number, selected.card_number])
 		
 	if active.card_number - selected.card_number == 1:
 		process_match(active.card_suit, selected.card_suit)
@@ -252,7 +255,6 @@ func process_selection():
 	reset_selection()
 		
 func reset_selection():
-	print("reset selection")
 	Globals.clear_selected()
 	
 	if combo > 5:
@@ -316,7 +318,6 @@ func initialise_battle_matrix():
 	battle_matrix.append(alien)
 
 func process_battle(active_suit, selected_suit):
-	print("battle active: %d selected: %d" % [active_suit, selected_suit])
 	var battle = battle_matrix[active_suit][selected_suit]
 	var result = { 
 		credits = battle, 
@@ -342,3 +343,20 @@ func on_discard_click():
 	if !pack.empty():
 		display_card()
 
+func process_audio():
+	if Globals.music_mute != music_mute:
+		music_mute = Globals.music_mute
+		AudioServer.set_bus_mute(music_index, music_mute)
+		
+	if Globals.sfx_mute != sfx_mute:
+		sfx_mute = Globals.sfx_mute
+		AudioServer.set_bus_mute(sfx_index, sfx_mute)
+	
+	if Globals.music_db != music_db:
+		music_db = Globals.music_db
+		
+	if Globals.sfx_db != sfx_db:
+		sfx_db = Globals.sfx_db
+	
+	
+	

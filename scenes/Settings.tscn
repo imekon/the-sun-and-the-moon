@@ -89,7 +89,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="Music" type="Node2D" parent="Panel"]
-editor/display_folded = true
 
 [node name="Label2" type="Label" parent="Panel/Music"]
 anchor_left = 0.0
@@ -144,7 +143,7 @@ anchor_bottom = 0.0
 margin_left = 663.0
 margin_top = 311.0
 margin_right = 836.0
-margin_bottom = 327.0
+margin_bottom = 333.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -156,7 +155,7 @@ min_value = 0.0
 max_value = 100.0
 step = 1.0
 page = 0.0
-value = 0.0
+value = 100.0
 exp_edit = false
 rounded = false
 allow_greater = false
@@ -168,7 +167,6 @@ ticks_on_borders = true
 focus_mode = 2
 
 [node name="SFX" type="Node2D" parent="Panel"]
-editor/display_folded = true
 
 [node name="Label2" type="Label" parent="Panel/SFX"]
 anchor_left = 0.0
@@ -223,7 +221,7 @@ anchor_bottom = 0.0
 margin_left = 663.0
 margin_top = 391.0
 margin_right = 836.0
-margin_bottom = 407.0
+margin_bottom = 413.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -235,7 +233,7 @@ min_value = 0.0
 max_value = 100.0
 step = 1.0
 page = 0.0
-value = 0.0
+value = 100.0
 exp_edit = false
 rounded = false
 allow_greater = false
@@ -271,4 +269,8 @@ text = "Close"
 flat = false
 align = 1
 
+[connection signal="pressed" from="Panel/Music/MusicButton" to="." method="on_music_pressed"]
+[connection signal="changed" from="Panel/Music/MusicSlider" to="." method="on_music_changed"]
+[connection signal="pressed" from="Panel/SFX/MusicButton" to="." method="on_sfx_pressed"]
+[connection signal="changed" from="Panel/SFX/MusicSlider" to="." method="on_sfx_changed"]
 [connection signal="pressed" from="Panel/CloseButton" to="." method="on_close_pressed"]
