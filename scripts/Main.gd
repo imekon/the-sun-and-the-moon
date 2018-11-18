@@ -31,6 +31,8 @@ onready var Indicator = load("res://scenes/Indicator.tscn")
 
 onready var dealing_cards = $SFX/DealingCards
 
+onready var next_button = $NextButton
+
 var pack = []
 var pile = []
 var card_discard_pile = []
@@ -51,11 +53,17 @@ var music_mute = false
 var sfx_mute = false
 var music_index
 var sfx_index
+var pile_count
+
+var next_button_block = false
 
 const offscreen = Vector2(-200, 400)
 
 func _ready():
 	randomize()
+	
+	next_button.visible = false
+	next_button_block = false
 	
 	music_index = AudioServer.get_bus_index("Music")
 	sfx_index = AudioServer.get_bus_index("SFX")
@@ -113,6 +121,9 @@ func _process(delta):
 		music_mute = Globals.music_mute
 
 	process_audio()
+	
+	if pile_count == 0:
+		next_button.visible = true
 		
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !event.is_pressed():
@@ -128,6 +139,7 @@ func create_pack():
 	pack.shuffle()
 	
 func deal_cards():
+	next_button_block = true
 	dealing_cards.play()
 	
 	var pos1 = pile1.position
@@ -168,6 +180,10 @@ func deal_cards():
 			yield(timer, "timeout")
 			
 	timer.stop()
+	
+	next_button_block = false
+	next_button.visible = false
+	pile_count = 16
 			
 func create_card(suit, number, pos):
 	var card : Sprite
@@ -285,6 +301,8 @@ func process_match(active_suit, selected_suit):
 			
 	combo += 1
 	
+	pile_count -= 1
+	
 	card_discard_pile.push_front(active)
 	yield(active, "finished_moving")
 	arrange_discard_pile()
@@ -357,6 +375,9 @@ func process_audio():
 		
 	if Globals.sfx_db != sfx_db:
 		sfx_db = Globals.sfx_db
-	
-	
-	
+
+func on_next_pressed():
+	if next_button_block:
+		return
+		
+	deal_cards()
