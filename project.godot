@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="The Sun and the Moon"
 run/main_scene="res://scenes/Welcome.tscn"
-boot_splash/image="res://images/spacestation.png"
+boot_splash/image="res://images/sun and moon.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 
