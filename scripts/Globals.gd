@@ -1,7 +1,6 @@
 extends Node
 
-enum SUITS { SUN, MOON, SHIP, ALIEN }
-# enum LOCATION { UNKNOWN, PILE, DISCARD, PICKUP }
+enum SUITS { SUN, MOON, SHIP, ALIEN, SPECIAL }
 
 var card_scaling = Vector2(0.7, 0.7)
 
@@ -11,7 +10,7 @@ var sfx_db = -6
 var music_mute = false
 var sfx_mute = false
 
-var suit_names = [ "Sun", "Moon", "Ship", "Alien" ]
+var suit_names = [ "Sun", "Moon", "Ship", "Alien", "Special" ]
 
 func clear_selected():
 	selected_card = null

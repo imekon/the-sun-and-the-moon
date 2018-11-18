@@ -42,6 +42,7 @@ var active = null
 var credits = 0
 var combo = 0
 var multiplier = 1.0
+var stage = 1
 
 var battle_matrix = []
 
@@ -197,6 +198,11 @@ func create_card(suit, number, pos):
 			card = ShipCard.instance()
 		Globals.ALIEN:
 			card = AlienCard.instance()
+		Globals.SPECIAL:
+			card = process_special_card()
+			
+	if card == null:
+		return null
 	
 	card.scale = Globals.card_scaling
 	card.position = pos
@@ -205,9 +211,20 @@ func create_card(suit, number, pos):
 	card.card_number = number
 	card.row = -1
 	var credits = 0
-	if rand_range(1, 100) > 70:
-		credits = 10
+	if suit != Globals.SPECIAL:
+		if rand_range(1, 100) > 70:
+			credits = 10
 	card.set_details(number, credits)
+	return card
+	
+func process_special_card():
+	var card = null
+	match stage:
+		2:
+			card = CometCard.instance()
+		3:
+			card = BlackHoleCard.instance()
+			
 	return card
 				
 func display_card():	
@@ -284,6 +301,10 @@ func process_match(active_suit, selected_suit):
 	active.z_index = 1
 	active = Globals.selected_card
 	Globals.clear_selected()
+	
+	if selected_suit == Globals.SPECIAL:
+		return
+		
 	var battle = process_battle(active_suit, selected_suit)
 	if active.card_credits > 0:
 		var first = Globals.suit_names[battle.first]
@@ -379,5 +400,10 @@ func process_audio():
 func on_next_pressed():
 	if next_button_block:
 		return
-		
+	
+	stage += 1
+	var card = create_card(Globals.SPECIAL, stage - 1, offscreen)
+	pack.append(card)
+			
 	deal_cards()
+
