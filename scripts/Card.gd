@@ -20,6 +20,9 @@ signal finished_moving
 func set_details(number, credits):
 	card_credits = credits
 	match number:
+		-1:
+			top_label.text = ""
+			bottom_label.text = ""
 		1:
 			top_label.text = "A"
 			bottom_label.text = "A"

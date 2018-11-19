@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Welcome.gd" type="Script" id=1]
 [ext_resource path="res://fonts/SF Atarian System.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://images/sun.png" type="Texture" id=3]
+[ext_resource path="res://images/moon.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -217,6 +219,14 @@ group = null
 text = "Help"
 flat = false
 align = 1
+
+[node name="The Sun" type="Sprite" parent="PanelContainer/Panel"]
+position = Vector2( 253, 343 )
+texture = ExtResource( 3 )
+
+[node name="The Moon" type="Sprite" parent="PanelContainer/Panel"]
+position = Vector2( 1003, 353 )
+texture = ExtResource( 4 )
 
 [connection signal="meta_clicked" from="PanelContainer/Panel/RichTextLabel" to="." method="on_label_meta_clicked"]
 [connection signal="pressed" from="PanelContainer/Panel/StartButton" to="." method="on_start_pressed"]

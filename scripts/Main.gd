@@ -83,28 +83,6 @@ func _ready():
 	deal_cards()
 	display_card()
 	
-func display_indicators():
-	for i in range(4):
-		var indicator = Indicator.instance()
-		add_child(indicator)
-		
-		var pos
-		
-		match i:
-			0:
-				pos = pile1.position
-			1:
-				pos = pile2.position
-			2:
-				pos = pile3.position
-			3:
-				pos = pile4.position
-				
-		pos.y = 480
-		
-		indicator.position = pos
-		indicators.append(indicator)
-	
 func _process(delta):
 	if Input.is_action_pressed("restart"):
 		get_tree().reload_current_scene()
@@ -129,6 +107,28 @@ func _process(delta):
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !event.is_pressed():
 		process_selection()
+	
+func display_indicators():
+	for i in range(4):
+		var indicator = Indicator.instance()
+		add_child(indicator)
+		
+		var pos
+		
+		match i:
+			0:
+				pos = pile1.position
+			1:
+				pos = pile2.position
+			2:
+				pos = pile3.position
+			3:
+				pos = pile4.position
+				
+		pos.y = 480
+		
+		indicator.position = pos
+		indicators.append(indicator)
 	
 func create_pack():
 	pack = []
@@ -235,7 +235,7 @@ func display_card():
 	active = pack[0]
 	pack.remove(0)
 	
-	# active.z_index = UPPERMOST
+	active.z_index = 1
 	active.position = discard_pile.position
 	active.move_to(active_pile.position)
 	
@@ -290,9 +290,9 @@ func process_selection():
 func reset_selection():
 	Globals.clear_selected()
 	
-	if combo > 5:
+	if combo >= 5:
 		var ratio = combo / 5.0
-		multiplier += ratio - 1.0
+		multiplier += ratio - 0.9
 	
 	combo = 0
 		
@@ -402,7 +402,7 @@ func on_next_pressed():
 		return
 	
 	stage += 1
-	var card = create_card(Globals.SPECIAL, stage - 1, offscreen)
+	var card = create_card(Globals.SPECIAL, -1, offscreen)
 	pack.append(card)
 			
 	deal_cards()
