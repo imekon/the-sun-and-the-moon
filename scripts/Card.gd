@@ -4,6 +4,7 @@ onready var top_label = $TopLabel
 onready var bottom_label = $BottomLabel
 onready var tween = $Tween
 onready var blob = $Blob
+onready var explosion = $Explosion
 
 var card_suit = -1
 var card_number = -1
@@ -49,6 +50,10 @@ func move_to(pos: Vector2):
 	tween_end = pos
 	tween.interpolate_method(self, "on_move", 0, 1, 0.6, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 	tween.start()
+	
+func blow_up(pos: Vector2):
+	tween_end = pos
+	explosion.play()
 
 func on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
@@ -61,3 +66,6 @@ func on_move(value):
 
 func on_tween_completed(object, key):
 	emit_signal("finished_moving")
+
+func on_explosion_finished():
+	position = tween_end

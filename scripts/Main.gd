@@ -84,8 +84,10 @@ func _ready():
 	display_card()
 	
 func _process(delta):
-	if Input.is_action_pressed("restart"):
+	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
+	if Input.is_action_just_pressed("blow_up"):
+		blow_up_cards()
 		
 	creditsLabel.text = "Credits: " + str(credits)
 	comboLabel.text = "Combo: " + str(combo)
@@ -185,6 +187,17 @@ func deal_cards():
 	next_button_block = false
 	next_button.visible = false
 	pile_count = 16
+	
+func blow_up_cards():
+	timer.start()
+	
+	for card in pile:
+		print("blow up a card!")
+		card.blow_up(offscreen)
+
+		yield(timer, "timeout")
+
+	timer.stop()
 			
 func create_card(suit, number, pos):
 	var card : Sprite
@@ -210,6 +223,7 @@ func create_card(suit, number, pos):
 	card.card_suit = suit
 	card.card_number = number
 	card.row = -1
+	card.column = -1
 	var credits = 0
 	if suit != Globals.SPECIAL:
 		if rand_range(1, 100) > 70:
@@ -238,6 +252,8 @@ func display_card():
 	active.z_index = 1
 	active.position = discard_pile.position
 	active.move_to(active_pile.position)
+	active.row = -1
+	active.column = -1
 	
 	card_discard_pile.push_front(active)
 	yield(active, "finished_moving")
