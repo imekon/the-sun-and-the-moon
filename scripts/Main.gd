@@ -191,8 +191,9 @@ func deal_cards():
 func blow_up_cards():
 	timer.start()
 	
-	for card in pile:
-		print("blow up a card!")
+	var card
+	while !pile.empty():
+		card = pile.pop_back()
 		card.blow_up(offscreen)
 
 		yield(timer, "timeout")
