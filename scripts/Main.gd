@@ -150,6 +150,7 @@ func deal_cards():
 	var pos3 = pile3.position
 	var pos4 = pile4.position
 	
+	timer.wait_time = 0.1
 	timer.start()
 	
 	for row in range(4):
@@ -189,16 +190,31 @@ func deal_cards():
 	pile_count = 16
 	
 func blow_up_cards():
+	# blow up all the cards on the pile first
+	timer.wait_time = 0.1
 	timer.start()
 	
 	var card
 	while !pile.empty():
 		card = pile.pop_back()
 		card.blow_up(offscreen)
+		pack.append(card)
 
 		yield(timer, "timeout")
 
 	timer.stop()
+	
+	# wait a second or so...
+	timer.wait_time = 1.5
+	timer.start()
+	yield(timer, "timeout")
+	timer.stop()
+	
+	# shuffle the pack
+	pack.shuffle()
+	
+	# redeal the cards
+	deal_cards()
 			
 func create_card(suit, number, pos):
 	var card : Sprite
