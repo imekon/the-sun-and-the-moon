@@ -10,6 +10,7 @@ var card_suit = -1
 var card_number = -1
 var card_credits = 0
 var card_special = false
+var card_type
 var row
 var column
 

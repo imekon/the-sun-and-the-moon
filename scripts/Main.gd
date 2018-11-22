@@ -215,6 +215,9 @@ func blow_up_cards():
 	
 	# redeal the cards
 	deal_cards()
+	
+func set_redeal_piles():
+	print("comet card activated")
 			
 func create_card(suit, number, pos):
 	var card : Sprite
@@ -241,21 +244,28 @@ func create_card(suit, number, pos):
 	card.card_number = number
 	card.row = -1
 	card.column = -1
+	card.card_type = Globals.STANDARD
 	var credits = 0
+	
 	if suit != Globals.SPECIAL:
 		if rand_range(1, 100) > 70:
 			credits = 10
+			
 	card.set_details(number, credits)
 	return card
 	
 func process_special_card():
 	var card = null
+	
 	match stage:
 		2:
 			card = CometCard.instance()
+			card.card_type = Globals.COMET
 		3:
 			card = BlackHoleCard.instance()
+			card.card_type = Globals.BLACKHOLE
 			
+	card.card_special = true
 	return card
 				
 func display_card():	
@@ -271,6 +281,14 @@ func display_card():
 	active.move_to(active_pile.position)
 	active.row = -1
 	active.column = -1
+	
+	match active.card_special:
+		Globals.STANDARD:
+			pass
+		Globals.COMET:
+			set_redeal_piles()
+		Globals.BLACKHOLE:
+			blow_up_cards()
 	
 	card_discard_pile.push_front(active)
 	yield(active, "finished_moving")

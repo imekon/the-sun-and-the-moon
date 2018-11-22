@@ -1,6 +1,7 @@
 extends Node
 
 enum SUITS { SUN, MOON, SHIP, ALIEN, SPECIAL }
+enum SPECIALS { STANDARD, COMET, BLACKHOLE }
 
 var card_scaling = Vector2(0.7, 0.7)
 
