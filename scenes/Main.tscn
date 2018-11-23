@@ -1,29 +1,38 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://images/starfield.png" type="Texture" id=2]
-[ext_resource path="res://scenes/DarkCard.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Selection.tscn" type="PackedScene" id=4]
-[ext_resource path="res://fonts/SF Atarian System.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://sfx/card-shuffling.wav" type="AudioStream" id=6]
+[ext_resource path="res://shaders/fog.shader" type="Shader" id=3]
+[ext_resource path="res://images/fog.png" type="Texture" id=4]
+[ext_resource path="res://scenes/DarkCard.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Selection.tscn" type="PackedScene" id=6]
+[ext_resource path="res://fonts/SF Atarian System.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://sfx/card-shuffling.wav" type="AudioStream" id=8]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="ShaderMaterial" id=1]
+
+render_priority = 0
+shader = ExtResource( 3 )
+shader_param/color = Vector3( 0.15, 0.1, 0.82 )
+shader_param/octaves = 4
+
+[sub_resource type="DynamicFont" id=2]
 
 size = 32
 outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 5 )
+font_data = ExtResource( 7 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 
 size = 36
 outline_size = 0
 outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 5 )
+font_data = ExtResource( 7 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -38,36 +47,43 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Card1" parent="." instance=ExtResource( 3 )]
+[node name="Fog" type="Sprite" parent="."]
+material = SubResource( 1 )
+position = Vector2( 630, 370 )
+scale = Vector2( 85.625, 78.125 )
+z_index = -99
+texture = ExtResource( 4 )
+
+[node name="Card1" parent="." instance=ExtResource( 5 )]
 position = Vector2( 292.8, 139.6 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
-[node name="Card2" parent="." instance=ExtResource( 3 )]
+[node name="Card2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 522.8, 139.6 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
-[node name="DiscardPile" parent="." instance=ExtResource( 3 )]
+[node name="DiscardPile" parent="." instance=ExtResource( 5 )]
 position = Vector2( 542.8, 630.6 )
 scale = Vector2( 0.7, 0.7 )
 
-[node name="ActivePile" parent="." instance=ExtResource( 3 )]
+[node name="ActivePile" parent="." instance=ExtResource( 5 )]
 position = Vector2( 730, 630 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -10
 
-[node name="Card3" parent="." instance=ExtResource( 3 )]
+[node name="Card3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 752.8, 140.6 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
-[node name="Card4" parent="." instance=ExtResource( 3 )]
+[node name="Card4" parent="." instance=ExtResource( 5 )]
 position = Vector2( 982.8, 140.6 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
-[node name="Selection" parent="." instance=ExtResource( 4 )]
+[node name="Selection" parent="." instance=ExtResource( 6 )]
 position = Vector2( 730, 630 )
 scale = Vector2( 0.7, 0.7 )
 z_index = 100
@@ -87,7 +103,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Credits: 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -108,7 +124,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Combo: 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -129,7 +145,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Multiplier: 0"
 percent_visible = 1.0
 lines_skipped = 0
@@ -151,7 +167,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Message"
 autowrap = true
 percent_visible = 1.0
@@ -175,7 +191,7 @@ autostart = false
 [node name="SFX" type="Node2D" parent="."]
 
 [node name="DealingCards" type="AudioStreamPlayer" parent="SFX"]
-stream = ExtResource( 6 )
+stream = ExtResource( 8 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -199,7 +215,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
