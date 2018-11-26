@@ -98,9 +98,6 @@ func _process(delta):
 	else:
 		selection.position = active.position
 		
-	if Globals.music_mute != music_mute:
-		music_mute = Globals.music_mute
-
 	process_audio()
 	
 	if pile_count == 0:
@@ -444,9 +441,11 @@ func process_audio():
 	
 	if Globals.music_db != music_db:
 		music_db = Globals.music_db
+		AudioServer.set_bus_volume_db(music_index, music_db)
 		
 	if Globals.sfx_db != sfx_db:
 		sfx_db = Globals.sfx_db
+		AudioServer.set_bus_volume_db(sfx_index, sfx_db)
 
 func on_next_pressed():
 	if next_button_block:
