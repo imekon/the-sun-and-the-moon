@@ -312,6 +312,8 @@ func process_selection():
 		return
 		
 	var selected = Globals.selected_card
+	
+	selected = choose_visible_card(selected)
 		
 	if selected == null:
 		reset_selection()
@@ -334,6 +336,20 @@ func process_selection():
 		return
 		
 	reset_selection()
+	
+func choose_visible_card(selected):
+	if selected == null:
+		return null
+		
+	if selected.row == -1:
+		return selected
+		
+	for card in pile:
+		if card.column == selected.column:
+			if card.row > selected.row:
+				selected = card
+				
+	return selected
 		
 func reset_selection():
 	Globals.clear_selected()
@@ -371,6 +387,9 @@ func process_match(active_suit, selected_suit):
 	combo += 1
 	
 	pile_count -= 1
+	
+	active.row = -1
+	active.column = -1
 	
 	card_discard_pile.push_front(active)
 	yield(active, "finished_moving")
@@ -412,19 +431,6 @@ func process_battle(active_suit, selected_suit):
 		second = selected_suit 
 		}
 	return result
-	
-func get_pile_card(pile_index):
-	match pile_index:
-		0:
-			pass
-		1:
-			pass
-		2:
-			pass
-		3:
-			pass
-		
-	return null
 	
 func on_discard_click():
 	if !pack.empty():

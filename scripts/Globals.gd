@@ -19,6 +19,10 @@ func clear_selected():
 func choose_selected(card):
 	if card == null:
 		return
+	
+	if card.row == -1:
+		selected_card = card
+		return
 		
 	if selected_card != null:
 		if selected_card.row < card.row:

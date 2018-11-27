@@ -70,3 +70,5 @@ func on_tween_completed(object, key):
 
 func on_explosion_finished():
 	position = tween_end
+	row = -1
+	column = -1
