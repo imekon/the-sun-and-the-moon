@@ -3,6 +3,9 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/darkcard.png-a589097f73a1e945554932f14e9f1379.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 

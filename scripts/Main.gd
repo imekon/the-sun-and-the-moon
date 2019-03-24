@@ -220,15 +220,15 @@ func create_card(suit, number, pos):
 	var card : Sprite
 	
 	match suit:
-		Globals.SUN:
+		Globals.SUITS.SUN:
 			card = SunCard.instance()
-		Globals.MOON:
+		Globals.SUITS.MOON:
 			card = MoonCard.instance()
-		Globals.SHIP:
+		Globals.SUITS.SHIP:
 			card = ShipCard.instance()
-		Globals.ALIEN:
+		Globals.SUITS.ALIEN:
 			card = AlienCard.instance()
-		Globals.SPECIAL:
+		Globals.SUITS.SPECIAL:
 			card = process_special_card()
 			
 	if card == null:
@@ -241,10 +241,10 @@ func create_card(suit, number, pos):
 	card.card_number = number
 	card.row = -1
 	card.column = -1
-	card.card_type = Globals.STANDARD
+	card.card_type = Globals.SPECIALS.STANDARD
 	var credits = 0
 	
-	if suit != Globals.SPECIAL:
+	if suit != Globals.SUITS.SPECIAL:
 		if rand_range(1, 100) > 70:
 			credits = 10
 			
@@ -257,10 +257,10 @@ func process_special_card():
 	match stage:
 		2:
 			card = CometCard.instance()
-			card.card_type = Globals.COMET
+			card.card_type = Globals.SPECIALS.COMET
 		3:
 			card = BlackHoleCard.instance()
-			card.card_type = Globals.BLACKHOLE
+			card.card_type = Globals.SPECIALS.BLACKHOLE
 			
 	card.card_special = true
 	return card
@@ -280,11 +280,11 @@ func display_card():
 	active.column = -1
 	
 	match active.card_special:
-		Globals.STANDARD:
+		Globals.SPECIALS.STANDARD:
 			pass
-		Globals.COMET:
+		Globals.SPECIALS.COMET:
 			set_redeal_piles()
-		Globals.BLACKHOLE:
+		Globals.SPECIALS.BLACKHOLE:
 			blow_up_cards()
 	
 	card_discard_pile.push_front(active)
@@ -366,7 +366,7 @@ func process_match(active_suit, selected_suit):
 	active = Globals.selected_card
 	Globals.clear_selected()
 	
-	if selected_suit == Globals.SPECIAL:
+	if selected_suit == Globals.SUITS.SPECIAL:
 		return
 		
 	var battle = process_battle(active_suit, selected_suit)
