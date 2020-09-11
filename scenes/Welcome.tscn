@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/Welcome.gd" type="Script" id=1]
 [ext_resource path="res://fonts/SF Atarian System.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://images/sun.png" type="Texture" id=3]
 [ext_resource path="res://images/moon.png" type="Texture" id=4]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="DynamicFont" id=1]
 size = 96
@@ -29,6 +32,7 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1273.0
 margin_bottom = 761.0
+custom_styles/panel = SubResource( 4 )
 
 [node name="Label" type="Label" parent="PanelContainer/Panel"]
 margin_top = 63.0
@@ -42,17 +46,22 @@ align = 1
 margin_left = 303.0
 margin_top = 233.0
 margin_right = 960.0
-margin_bottom = 623.0
+margin_bottom = 664.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "[center][img]res://images/Game Off 2018.png[/img][/center]
 [center]
 A game created for [url=https://itch.io/jam/game-off-2018]Game Off 2018[/url] by Pete Goodwin[/center]
-[center]Created in [url=https://godotengine.org/]Godot[/url] V3.1 Alpha 2[/center]"
+[center]Created in [url=https://godotengine.org/]Godot[/url] V3.1 Alpha 2[/center]
+[center]Updated to V3.2.2[/center]"
 text = "
 
 A game created for Game Off 2018 by Pete Goodwin
-Created in Godot V3.1 Alpha 2"
+Created in Godot V3.1 Alpha 2
+Updated to V3.2.2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StartButton" type="Button" parent="PanelContainer/Panel"]
 margin_left = 303.0
@@ -93,7 +102,6 @@ texture = ExtResource( 3 )
 [node name="The Moon" type="Sprite" parent="PanelContainer/Panel"]
 position = Vector2( 1003, 353 )
 texture = ExtResource( 4 )
-
 [connection signal="meta_clicked" from="PanelContainer/Panel/RichTextLabel" to="." method="on_label_meta_clicked"]
 [connection signal="pressed" from="PanelContainer/Panel/StartButton" to="." method="on_start_pressed"]
 [connection signal="pressed" from="PanelContainer/Panel/SettingsButton" to="." method="on_settings_pressed"]

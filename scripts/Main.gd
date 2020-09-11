@@ -458,7 +458,7 @@ func on_next_pressed():
 		return
 	
 	stage += 1
-	var card = create_card(Globals.SPECIAL, -1, offscreen)
+	var card = create_card(Globals.SUITS.SPECIAL, -1, offscreen)
 	pack.append(card)
 			
 	deal_cards()
