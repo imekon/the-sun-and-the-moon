@@ -5,18 +5,18 @@
 [ext_resource path="res://images/sun.png" type="Texture" id=3]
 [ext_resource path="res://images/moon.png" type="Texture" id=4]
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 96
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 36
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 48
 font_data = ExtResource( 2 )
 
@@ -32,13 +32,13 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1273.0
 margin_bottom = 761.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="PanelContainer/Panel"]
 margin_top = 63.0
 margin_right = 1263.0
 margin_bottom = 159.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "The Sun and the Moon"
 align = 1
 
@@ -47,7 +47,7 @@ margin_left = 303.0
 margin_top = 233.0
 margin_right = 960.0
 margin_bottom = 664.0
-custom_fonts/normal_font = SubResource( 2 )
+custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center][img]res://images/Game Off 2018.png[/img][/center]
 [center]
@@ -68,7 +68,7 @@ margin_left = 303.0
 margin_top = 683.0
 margin_right = 430.0
 margin_bottom = 737.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Start"
 
 [node name="SettingsButton" type="Button" parent="PanelContainer/Panel"]
@@ -76,7 +76,7 @@ margin_left = 473.0
 margin_top = 683.0
 margin_right = 615.0
 margin_bottom = 737.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Settings"
 
 [node name="CreditsButton" type="Button" parent="PanelContainer/Panel"]
@@ -84,7 +84,7 @@ margin_left = 663.0
 margin_top = 683.0
 margin_right = 790.0
 margin_bottom = 737.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Credits"
 
 [node name="HelpButton" type="Button" parent="PanelContainer/Panel"]
@@ -92,7 +92,7 @@ margin_left = 833.0
 margin_top = 683.0
 margin_right = 960.0
 margin_bottom = 737.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Help"
 
 [node name="The Sun" type="Sprite" parent="PanelContainer/Panel"]
