@@ -4,6 +4,8 @@ onready var pile1 = $Card1
 onready var pile2 = $Card2
 onready var pile3 = $Card3
 onready var pile4 = $Card4
+onready var pile5 = $Card5
+onready var pile6 = $Card6
 
 onready var active_pile = $ActivePile
 onready var discard_pile = $DiscardPile
@@ -108,7 +110,7 @@ func _unhandled_input(event):
 		process_selection()
 	
 func display_indicators():
-	for i in range(4):
+	for i in range(6):
 		var indicator = Indicator.instance()
 		add_child(indicator)
 		
@@ -123,6 +125,10 @@ func display_indicators():
 				pos = pile3.position
 			3:
 				pos = pile4.position
+			4:
+				pos = pile5.position
+			5:
+				pos = pile6.position
 				
 		pos.y = 480
 		
@@ -146,12 +152,14 @@ func deal_cards():
 	var pos2 = pile2.position
 	var pos3 = pile3.position
 	var pos4 = pile4.position
+	var pos5 = pile5.position
+	var pos6 = pile6.position
 	
 	timer.wait_time = 0.1
 	timer.start()
 	
 	for row in range(4):
-		for column in range(4):
+		for column in range(6):
 			var pos = Vector2()
 			
 			match column:
@@ -163,6 +171,10 @@ func deal_cards():
 					pos = pos3
 				3:
 					pos = pos4
+				4:
+					pos = pos5
+				5:
+					pos = pos6
 				
 			pos.y += row * 70
 			
@@ -184,7 +196,10 @@ func deal_cards():
 	
 	next_button_block = false
 	next_button.visible = false
-	pile_count = 16
+	
+	# number of cards on display
+	# pile_count = 4 * 6
+	pile_count = pile.size()
 	
 func blow_up_cards():
 	# blow up all the cards on the pile first

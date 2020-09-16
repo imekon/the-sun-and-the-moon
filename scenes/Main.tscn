@@ -10,28 +10,16 @@
 [ext_resource path="res://sfx/card-shuffling.wav" type="AudioStream" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
-
-render_priority = 0
 shader = ExtResource( 3 )
 shader_param/color = Vector3( 0.15, 0.1, 0.82 )
 shader_param/octaves = 4
 
 [sub_resource type="DynamicFont" id=2]
-
 size = 32
-outline_size = 0
-outline_color = Color( 1, 1, 1, 1 )
-use_mipmaps = false
-use_filter = false
 font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=3]
-
 size = 36
-outline_size = 0
-outline_color = Color( 1, 1, 1, 1 )
-use_mipmaps = false
-use_filter = false
 font_data = ExtResource( 7 )
 
 [node name="Main" type="Node2D"]
@@ -55,12 +43,12 @@ z_index = -99
 texture = ExtResource( 4 )
 
 [node name="Card1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 292.8, 139.6 )
+position = Vector2( 150, 140 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
 [node name="Card2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 522.8, 139.6 )
+position = Vector2( 340, 140 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
@@ -74,12 +62,22 @@ scale = Vector2( 0.7, 0.7 )
 z_index = -10
 
 [node name="Card3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 752.8, 140.6 )
+position = Vector2( 530, 140 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
 [node name="Card4" parent="." instance=ExtResource( 5 )]
-position = Vector2( 982.8, 140.6 )
+position = Vector2( 720, 140 )
+scale = Vector2( 0.7, 0.7 )
+z_index = -50
+
+[node name="Card5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 920, 140 )
+scale = Vector2( 0.7, 0.7 )
+z_index = -50
+
+[node name="Card6" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1120, 140 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
@@ -89,139 +87,55 @@ scale = Vector2( 0.7, 0.7 )
 z_index = 100
 
 [node name="CreditsLabel" type="Label" parent="."]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 40.0
 margin_top = 690.0
 margin_right = 143.0
 margin_bottom = 723.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Credits: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="ComboLabel" type="Label" parent="."]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 340.0
 margin_top = 640.0
 margin_right = 435.0
 margin_bottom = 673.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Combo: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="MultiplierLabel" type="Label" parent="."]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 300.0
 margin_top = 690.0
 margin_right = 435.0
 margin_bottom = 723.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Multiplier: 0"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="MessageLabel" type="Label" parent="."]
 modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 960.0
 margin_top = 660.0
 margin_right = 1240.0
 margin_bottom = 742.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Message"
 autowrap = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="MessageTween" type="Tween" parent="."]
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
 
 [node name="Timer" type="Timer" parent="."]
-process_mode = 1
 wait_time = 0.1
-one_shot = false
-autostart = false
 
 [node name="SFX" type="Node2D" parent="."]
 
 [node name="DealingCards" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 8 )
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-mix_target = 0
 bus = "SFX"
 
 [node name="NextButton" type="Button" parent="."]
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = 510.0
 margin_top = 680.0
 margin_right = 574.0
 margin_bottom = 722.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 custom_fonts/font = SubResource( 3 )
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Next"
-flat = false
-align = 1
-
 [connection signal="pressed" from="NextButton" to="." method="on_next_pressed"]
