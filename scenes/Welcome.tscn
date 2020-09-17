@@ -44,21 +44,21 @@ align = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/Panel"]
 margin_left = 303.0
-margin_top = 233.0
-margin_right = 960.0
-margin_bottom = 664.0
+margin_top = 232.0
+margin_right = 950.0
+margin_bottom = 663.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center][img]res://images/Game Off 2018.png[/img][/center]
 [center]
 A game created for [url=https://itch.io/jam/game-off-2018]Game Off 2018[/url] by Pete Goodwin[/center]
 [center]Created in [url=https://godotengine.org/]Godot[/url] V3.1 Alpha 2[/center]
-[center]Updated to V3.2.2[/center]"
+[center]Updated to V3.2.3[/center]"
 text = "
 
 A game created for Game Off 2018 by Pete Goodwin
 Created in Godot V3.1 Alpha 2
-Updated to V3.2.2"
+Updated to V3.2.3"
 __meta__ = {
 "_edit_use_anchors_": false
 }
