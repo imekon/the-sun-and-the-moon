@@ -46,8 +46,6 @@ var combo = 0
 var multiplier = 1.0
 var stage = 1
 
-var battle_matrix = []
-
 var indicators = []
 
 var music_db = -6
@@ -60,6 +58,8 @@ var pile_count
 
 var next_button_block = false
 
+var battle_matrix = Battle.new()
+
 const offscreen = Vector2(-200, 400)
 
 func _ready():
@@ -71,7 +71,7 @@ func _ready():
 	music_index = AudioServer.get_bus_index("Music")
 	sfx_index = AudioServer.get_bus_index("SFX")
 	
-	initialise_battle_matrix()
+	battle_matrix.initialise_battle_matrix()
 	
 	var back_card = BackCard.instance()
 	back_card.position = discard_pile.position
@@ -384,7 +384,7 @@ func process_match(active_suit, selected_suit):
 	if selected_suit == Globals.SUITS.SPECIAL:
 		return
 		
-	var battle = process_battle(active_suit, selected_suit)
+	var battle = battle_matrix.process_battle(active_suit, selected_suit)
 	if active.card_credits > 0:
 		var first = Globals.suit_names[battle.first]
 		var second = Globals.suit_names[battle.second]
@@ -417,35 +417,6 @@ func process_message(message):
 	
 func on_message_tween(value):
 	messageLabel.modulate = Color(1, 1, 1, 1 - value)
-
-# Scissors cuts paper => SHIP beats MOON
-# Paper covers rock => MOON beats SUN
-# Rock crushes lizard => SUN beats ALIEN
-# Scissors decapitates lizard => SHIP beats ALIEN
-# Lizard eats paper => ALIEN beats MOON
-# Rock crushes scissors => SUN beats SHIP
-#
-# SUN  -> MOON  -> SHIP     -> ALIEN
-# ROCK -> PAPER -> SCISSORS -> LIZARD
-func initialise_battle_matrix():
-	var sun =   [  0, -1,  1,  1 ]
-	var moon =  [  1,  0, -1, -1 ]
-	var ship =  [ -1,  1,  0,  1 ]
-	var alien = [ -1,  1, -1,  0 ]
-	
-	battle_matrix.append(sun)
-	battle_matrix.append(moon)
-	battle_matrix.append(ship)
-	battle_matrix.append(alien)
-
-func process_battle(active_suit, selected_suit):
-	var battle = battle_matrix[active_suit][selected_suit]
-	var result = { 
-		credits = battle, 
-		first = active_suit, 
-		second = selected_suit 
-		}
-	return result
 	
 func on_discard_click():
 	if !pack.empty():
