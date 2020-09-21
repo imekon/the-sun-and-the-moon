@@ -71,7 +71,7 @@ func _ready():
 	music_index = AudioServer.get_bus_index("Music")
 	sfx_index = AudioServer.get_bus_index("SFX")
 	
-	battle_matrix.initialise_battle_matrix()
+	battle_matrix.initialise()
 	
 	var back_card = BackCard.instance()
 	back_card.position = discard_pile.position
@@ -82,7 +82,7 @@ func _ready():
 	
 	# display_indicators()
 	create_pack()
-	deal_cards()
+	deal_cards(3)
 	display_card()
 	
 func _process(delta):
@@ -144,7 +144,7 @@ func create_pack():
 
 	pack.shuffle()
 	
-func deal_cards():
+func deal_cards(rows):
 	next_button_block = true
 	dealing_cards.play()
 	
@@ -158,7 +158,7 @@ func deal_cards():
 	timer.wait_time = 0.1
 	timer.start()
 	
-	for row in range(4):
+	for row in range(rows):
 		for column in range(6):
 			var pos = Vector2()
 			
@@ -226,7 +226,7 @@ func blow_up_cards():
 	pack.shuffle()
 	
 	# redeal the cards
-	deal_cards()
+	deal_cards(3)
 	
 func set_redeal_piles():
 	print("comet card activated")
@@ -447,5 +447,5 @@ func on_next_pressed():
 	var card = create_card(Globals.SUITS.SPECIAL, -1, offscreen)
 	pack.append(card)
 			
-	deal_cards()
+	deal_cards(3)
 

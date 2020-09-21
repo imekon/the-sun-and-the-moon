@@ -13,7 +13,7 @@ var battle_matrix = []
 #
 # SUN  -> MOON  -> SHIP     -> ALIEN
 # ROCK -> PAPER -> SCISSORS -> LIZARD
-func initialise_battle_matrix():
+func initialise():
 	var sun =   [  0, -1,  1,  1 ]
 	var moon =  [  1,  0, -1, -1 ]
 	var ship =  [ -1,  1,  0,  1 ]

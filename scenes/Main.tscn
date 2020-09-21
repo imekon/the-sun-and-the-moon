@@ -53,11 +53,11 @@ scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
 [node name="DiscardPile" parent="." instance=ExtResource( 5 )]
-position = Vector2( 542.8, 630.6 )
+position = Vector2( 530, 630 )
 scale = Vector2( 0.7, 0.7 )
 
 [node name="ActivePile" parent="." instance=ExtResource( 5 )]
-position = Vector2( 730, 630 )
+position = Vector2( 720, 630 )
 scale = Vector2( 0.7, 0.7 )
 z_index = -10
 
@@ -82,7 +82,7 @@ scale = Vector2( 0.7, 0.7 )
 z_index = -50
 
 [node name="Selection" parent="." instance=ExtResource( 6 )]
-position = Vector2( 730, 630 )
+position = Vector2( 723, 630 )
 scale = Vector2( 0.7, 0.7 )
 z_index = 100
 
